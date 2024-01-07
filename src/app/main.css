@@ -1,0 +1,27 @@
+.question-container {
+  border: 1px silver solid;
+  background-color: rgba(100, 100, 100, 0.5);
+  border-bottom: 2px red solid;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 5px;
+  margin: 1em;
+}
+.question-header {
+  justify-content: space-between;
+  margin: 8px;
+  padding: 4px;
+}
+.question-body {
+  justify-content: space-between;
+  margin: 3px;
+  padding: 3px;
+}
+.question-replies-section {
+  margin: 0.1em;
+  padding: 0.2em;
+}
+.question-reply-section {
+  margin: 0.1em;
+  padding: 0.2em;
+}
