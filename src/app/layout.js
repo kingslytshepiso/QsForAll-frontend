@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "./loading";
 import reactSessionApi from "react-session-api";
-import { initializeSession } from "./data";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,31 +17,12 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [logStatus, setLogStatus] = useState(null);
+  const [logStatus, setLogStatus] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
-  reactSessionApi.config(true, 36900);
-  initializeSession();
 
-  document.cookie = `initializer=true;max-age=604800`;
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
-    fetch("http://localhost:8080/account/getLogStatus")
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then(
-        (result) => {
-          setLogStatus(result);
-          console.log(result);
-          reactSessionApi.set("dummy", result);
-          console.log("Session test result: " + reactSessionApi.get("dummy"));
-        },
-        (error) => {
-          setError(error);
-        }
-      );
   }, []);
   const IsLogged = () => {
     if (logStatus) {
@@ -72,7 +52,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-light rounded">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top navbar-light rounded">
           <div className="container-fluid">
             <Link className="navbar-brand" href={"/"}>
               QsForAll

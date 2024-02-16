@@ -4,9 +4,9 @@ import "./main.css";
 
 export function QuestionList() {
   const [error, setError] = useState(null);
-  const [questions, setQuestions] = useState(null);
+  const [questions, setQuestions] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8080/getQuestions")
+    fetch("http://localhost:8080/questions")
       .then((res) => res.json())
       .then(
         (result) => {
@@ -21,12 +21,12 @@ export function QuestionList() {
   return (
     <div className="p-2 m-2">
       <div className="mx-auto">
-        {questions?.map(function (item, index) {
+        {questions.content?.map(function (item, index) {
           return (
             <div key={index} className="question-container">
               <div className="question-header d-flex flex-sm-row flex-column flex-md-row">
                 <span className="h4">
-                  <strong>{item.content}</strong>
+                  <strong>{item.title}</strong>
                 </span>
                 <div className="d-flex flex-column">
                   <span>
