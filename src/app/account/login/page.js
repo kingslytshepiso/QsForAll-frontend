@@ -3,38 +3,39 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../main.css";
 import Link from "next/link";
 import { useState } from "react";
-import Router from "next/router";
-import { post } from "jquery";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [summary, setSummary] = useState(null);
   const [isValid, setValidity] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   async function onSubmit(event) {
     event.preventDefault();
-    setIsLoading(true);
-    try {
-      const formData = new FormData(event.currentTarget);
-      const response = await fetch("http://localhost:8080/account/login", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      console.log(data);
-      if (data == true) {
-        setSummary("Success");
-        setValidity(true);
-      } else {
-        setSummary("Invalid");
-        setValidity(false);
-      }
-    } catch (error) {
-      console.error(error.message);
-      setSummary("An error occurred");
-      setValidity(false);
-    } finally {
-      setIsLoading(false);
-    }
+    const formData = new FormData(event.currentTarget);
+    fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: formData.get("username"),
+        password: formData.get("password"),
+      }),
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          router.push("/");
+        } else if (response.status == 401) {
+          alert("invalid credentials");
+        }
+      })
+      .then(
+        () => {},
+        (error) => {
+          console.log(error);
+        }
+      );
   }
   return (
     <div className="d-flex justify-content-center">

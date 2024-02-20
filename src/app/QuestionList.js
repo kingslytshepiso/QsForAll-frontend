@@ -1,10 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import "./main.css";
+import Link from "next/link";
 
 export function QuestionList() {
   const [error, setError] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const router = useRouter();
   useEffect(() => {
     fetch("http://localhost:8080/questions")
       .then((res) => res.json())
@@ -22,36 +25,42 @@ export function QuestionList() {
     <div className="p-2 m-2">
       <div className="mx-auto">
         {questions.content?.map(function (item, index) {
+          const itemUrlTitle = encodeURI(item.title.toLowerCase()).replace(
+            "?",
+            "%3F"
+          );
           return (
-            <div key={index} className="question-container">
-              <div className="question-header d-flex flex-sm-row flex-column flex-md-row">
-                <span className="h4">
-                  <strong>{item.title}</strong>
-                </span>
-                <div className="d-flex flex-column">
-                  <span>
-                    <i>date posted: {item.datePosted}</i>
-                  </span>
-                  <span>
-                    <i>posted by: {item.postedBy}</i>
-                  </span>
+            <Link
+              key={index}
+              href={`/questions/${itemUrlTitle}`}
+              className="question-link"
+            >
+              <div className="question-container">
+                <div className="question-header d-flex flex-sm-row flex-column flex-md-row">
+                  <div>
+                    <span className="question-title h4">
+                      <strong>{item.title}</strong>
+                    </span>
+                    <span
+                      className="question-content question-content-not-expanded"
+                      data-text-expanded="false"
+                      onClick={(event) => expandText(event.target)}
+                    >
+                      {item.content ? item.content : "no content"}
+                    </span>
+                  </div>
+
+                  <div className="d-flex flex-column">
+                    <span>
+                      <i>date posted: {item.datePosted}</i>
+                    </span>
+                    <span>
+                      <i>posted by: {item.postedBy}</i>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="question-body  d-flex flex-sm-row flex-column flex-md-row">
-                <div className="question-replies-section">No replies</div>
-                <div className="question-reply-section">
-                  <span className="m-1">Enter your reply</span>
-                  <form action="#">
-                    <div className="m-1 p-1">
-                      <textarea className="form-control m-1"></textarea>
-                      <button type="submit" className="mx-1 btn btn-primary">
-                        Submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+            </Link>
           );
         })}
       </div>

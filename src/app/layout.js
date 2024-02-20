@@ -17,15 +17,28 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [logStatus, setLogStatus] = useState(false);
+  const [isLoggedIn, setLogStatus] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
+    fetch("http://localhost:8080/auth/authenticate")
+      .then((response) => {
+        console.log(response.headers.get("set-cookie"));
+        return response.json();
+      })
+      .then(
+        (result) => {
+          setLogStatus(result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }, []);
   const IsLogged = () => {
-    if (logStatus) {
+    if (isLoggedIn) {
       return (
         <>
           <Link

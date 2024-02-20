@@ -1,3 +1,7 @@
+.question-link {
+  color: inherit;
+  text-decoration: none;
+}
 .question-container {
   border: 1px silver solid;
   background-color: rgba(100, 100, 100, 0.5);
@@ -12,18 +16,48 @@
   margin: 8px;
   padding: 4px;
 }
+.question-header div:first-child {
+  width: 65%;
+  padding-right: 5rem;
+}
+.question-header div:last-child {
+  width: 35%;
+}
+.question-title {
+  display: block;
+}
+.question-content {
+  display: block;
+}
+.question-content-not-expanded {
+  max-height: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .question-body {
   justify-content: space-between;
   margin: 3px;
   padding: 3px;
 }
+
 .question-replies-section {
+  width: 65%;
   margin: 0.1em;
   padding: 0.2em;
 }
 .question-reply-section {
+  width: 35%;
   margin: 0.1em;
   padding: 0.2em;
+}
+.reply {
+  margin: 5px;
+}
+.reply-author {
+  font-size: 9px;
+  color: grey;
+  margin-right: 5px;
 }
 .box-search-result-container {
   display: flex;
@@ -62,4 +96,24 @@
 }
 .chosen-item .close:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 576px) {
+  .question-replies-section {
+    width: 100%;
+  }
+  .question-reply-section {
+    width: 100%;
+  }
+  .question-reply-section form div {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .question-header div:first-child {
+    width: 100%;
+    padding-right: 0;
+  }
+  .question-header div:last-child {
+    width: 100%;
+  }
 }
